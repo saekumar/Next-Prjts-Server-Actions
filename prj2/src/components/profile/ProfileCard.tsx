@@ -70,7 +70,7 @@ export function ProfileCard() {
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme('dark')}>
                   <Moon className="mr-2 h-5 w-4" />
-                  <span>Light</span>
+                  <span>Dark</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme('system')}>
                   <Laptop className="mr-2 h-5 w-4" />

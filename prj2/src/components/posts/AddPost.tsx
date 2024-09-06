@@ -49,11 +49,15 @@ const AddPost = () => {
       <div className="mb-16">
         <AlertDialog open={isOpen}>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" onClick={() => setIsOpen(true)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsOpen(true)}
+              className="bg-gray-50 text-gray-950"
+            >
               Add Post
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="">
+          <AlertDialogContent className="bg-[#0A0A0A] shadow-2xl">
             <AlertDialogHeader>
               <AlertDialogTitle className="text-center">
                 Add Your Post Here
@@ -63,8 +67,8 @@ const AddPost = () => {
                   <Input
                     id="title"
                     type="text"
-                    placeholder="Post title"
-                    className="mt-4"
+                    placeholder="Post Title"
+                    className="mt-4 text-2xl"
                     {...register('title')}
                   />
                   {errors.title && (
@@ -75,7 +79,7 @@ const AddPost = () => {
                   <Textarea
                     id="description"
                     placeholder="Post Content"
-                    className="h-40"
+                    className="h-40 text-xl"
                     {...register('description')}
                   />
                   {errors.description && (
@@ -84,7 +88,10 @@ const AddPost = () => {
                     </p>
                   )}
                   <AlertDialogFooter>
-                    <AlertDialogCancel onClick={() => setIsOpen(false)}>
+                    <AlertDialogCancel
+                      onClick={() => setIsOpen(false)}
+                      className=""
+                    >
                       Cancel
                     </AlertDialogCancel>
                     <Button

@@ -7,9 +7,9 @@ type Props = {}
 
 const PostsPage = (props: Props) => {
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-700">
+    <div className="relative flex flex-col items-center justify-center min-h-screen ">
       <AddPost />
-      <div className="bg-gray-800 p-6 shadow-xl rounded-lg h-auto w-[75vw]">
+      <div className="bg-yellow-100 p-6 shadow-xl rounded-lg h-auto w-[75vw]">
         <PostsComponent />
       </div>
     </div>

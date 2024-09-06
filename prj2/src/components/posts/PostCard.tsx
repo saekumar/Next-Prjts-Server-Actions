@@ -36,8 +36,8 @@ const PostCard = ({ post }: Props) => {
           <CardTitle className="text-3xl text-center">{post.title}</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-y-1">
-          <CardDescription>
-            <h1 className="text-2xl font-mono  ">{post.content}</h1>
+          <CardDescription className="overflow-hidden ">
+            <h1 className="text-2xl font-mono break-words">{post.content}</h1>
           </CardDescription>
           <Label className="mt-5">
             Created At: {new Date(post.createdAt).toLocaleDateString()}
