@@ -1,11 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ModeToggle } from '../themes/ThemeToggle'
 import { Button } from '../ui/button'
 import { ProfileCard } from '../profile/ProfileCard'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { UserDetails } from '@/global/GlobalUser'
+import { User } from '@/types/UserTypes'
 type Props = {}
 const navItems = [
   {
@@ -28,11 +30,19 @@ const navItems = [
 
 const Navbar = (props: Props) => {
   const router = useRouter()
+  const [userD, setUserD] = useState<User | null>()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
+  useEffect(() => {
+    const getUserDetails = async () => {
+      const user = UserDetails()
+      setUserD(user)
+    }
+    getUserDetails()
+  }, [])
 
   return (
     <div className="relative">
@@ -75,9 +85,11 @@ const Navbar = (props: Props) => {
         {/* Desktop Profile & Mode Toggle */}
         <div className="hidden md:flex items-center gap-3 p-5">
           <div className="text-white">
-            <Button onClick={() => router.push('/login')}>Login</Button>
+            <Button onClick={() => (!userD ? router.push('/login') : '/')}>
+              {!userD ? 'Login' : 'Fav'}
+            </Button>
           </div>
-          <ProfileCard />
+          {userD && <ProfileCard user={userD} />}
         </div>
       </div>
 
@@ -111,15 +123,11 @@ const Navbar = (props: Props) => {
           </div>
 
           <div className="flex flex-col items-center justify-center w-full mt-10 gap-4">
-            <Button
-              className="bg-slate-400"
-              variant="ghost"
-              onClick={() => router.push('/login')}
-            >
-              Login
+            <Button onClick={() => (!userD ? router.push('/login') : '/')}>
+              {!userD ? 'Login' : 'Fav'}
             </Button>
             <div className="text-white">
-              <ProfileCard />
+              {userD && <ProfileCard user={userD} />}
             </div>
           </div>
         </div>

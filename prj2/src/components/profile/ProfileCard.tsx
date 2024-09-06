@@ -10,7 +10,6 @@ import {
   Plus,
   PlusCircle,
   Settings,
-  User,
   UserPlus,
   Users,
   SunMoonIcon,
@@ -18,6 +17,7 @@ import {
   Sun,
   Moon,
   Laptop,
+  CircleUserRound,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -38,19 +38,30 @@ import {
 import { ModeToggle } from '../themes/ThemeToggle'
 // Make sure this path is correct for your project structure
 import { useTheme } from 'next-themes'
-export function ProfileCard() {
+import { User } from '@/types/UserTypes'
+
+export function ProfileCard({ user }: { user: User }) {
   const { setTheme } = useTheme()
+  const handleLogout = () => {
+    localStorage.clear()
+    window.location.href = '/login'
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Profile</Button>
+        <Button
+          variant="outline"
+          className="rounded-xl bg-gray-50 text-gray-950"
+        >
+          {user.fullname.charAt(0).toUpperCase()}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
+            <CircleUserRound className="mr-2 " size={18} />
             <span>Profile</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -82,7 +93,7 @@ export function ProfileCard() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

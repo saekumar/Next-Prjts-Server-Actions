@@ -21,6 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { PostSchema } from '@/schemas/PostSchema'
 import { createPost } from '@/actions/PostSchema'
 import { toast } from 'sonner'
+import { UserDetails } from '@/global/GlobalUser'
 type Props = {}
 type TPost = {
   title: string
@@ -34,17 +35,13 @@ const AddPost = () => {
     reset,
   } = useForm<TPost>({ resolver: zodResolver(PostSchema) })
   const [isOpen, setIsOpen] = useState(false)
-  let user = localStorage.getItem('user')
-  user = user ? JSON.parse(user) : user
-  let userId = user?.id as string
-  console.log('user', user, userId)
+  const userid = UserDetails()?.id as string
 
   const handleClick = async (postData: TPost) => {
-    console.log(postData)
     let formData = new FormData()
     formData.append('title', postData.title)
     formData.append('description', postData.description)
-    formData.append('userid', userId)
+    formData.append('userid', userid)
     let res = await createPost(formData)
 
     reset()

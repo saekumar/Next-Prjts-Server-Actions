@@ -14,7 +14,7 @@ export async function createPost(postData: FormData) {
         userid,
       },
     })
-    console.log(res)
+
     revalidatePath('/posts')
     return { message: 'Post Created Successfully' }
   } catch (error) {
