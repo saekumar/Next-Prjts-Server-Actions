@@ -18,11 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import Link from 'next/link'
 type Props = {
   post: {
     id: string
     title: string
     content: string
+    userid: string
     createdAt: Date
     updatedAt: Date
   }
@@ -30,7 +32,7 @@ type Props = {
 
 const PostCard = ({ post }: Props) => {
   return (
-    <div>
+    <Link href={`posts/${post.id}`}>
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle className="text-3xl text-center">{post.title}</CardTitle>
@@ -56,7 +58,7 @@ const PostCard = ({ post }: Props) => {
           <Button>Add to Fav</Button>
         </CardFooter>
       </Card>
-    </div>
+    </Link>
   )
 }
 

@@ -5,7 +5,7 @@ import { ModeToggle } from '../themes/ThemeToggle'
 import { Button } from '../ui/button'
 import { ProfileCard } from '../profile/ProfileCard'
 import Link from 'next/link'
-
+import { useRouter } from 'next/navigation'
 type Props = {}
 const navItems = [
   {
@@ -27,6 +27,7 @@ const navItems = [
 ]
 
 const Navbar = (props: Props) => {
+  const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => {
@@ -74,7 +75,7 @@ const Navbar = (props: Props) => {
         {/* Desktop Profile & Mode Toggle */}
         <div className="hidden md:flex items-center gap-3 p-5">
           <div className="text-white">
-            <Button>Login</Button>
+            <Button onClick={() => router.push('/login')}>Login</Button>
           </div>
           <ProfileCard />
         </div>
@@ -110,7 +111,11 @@ const Navbar = (props: Props) => {
           </div>
 
           <div className="flex flex-col items-center justify-center w-full mt-10 gap-4">
-            <Button className="bg-slate-400" variant="ghost">
+            <Button
+              className="bg-slate-400"
+              variant="ghost"
+              onClick={() => router.push('/login')}
+            >
               Login
             </Button>
             <div className="text-white">

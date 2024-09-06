@@ -6,12 +6,15 @@ export async function createPost(postData: FormData) {
   try {
     const title = postData.get('title') as string
     const description = postData.get('description') as string
-    await prisma.post.create({
+    const userid = postData.get('userid') as string
+    let res = await prisma.post.create({
       data: {
-        title: title,
+        title,
         content: description,
+        userid,
       },
     })
+    console.log(res)
     revalidatePath('/posts')
     return { message: 'Post Created Successfully' }
   } catch (error) {
@@ -34,5 +37,20 @@ export async function getAllPosts() {
   } catch (error) {
     console.log('Error fetching posts:', error)
     return { message: 'Something went wrong' }
+  }
+}
+
+export async function getSinglePost(postid: string) {
+  try {
+    let res = await prisma.post.findFirst({
+      where: { id: postid },
+    })
+    console.log(res)
+    if (res) {
+      return res
+    }
+    return { message: 'something went wrong' }
+  } catch (error) {
+    return { message: 'Error in getting single Post' }
   }
 }
