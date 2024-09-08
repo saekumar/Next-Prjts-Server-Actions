@@ -1,8 +1,7 @@
 'use client'
-import { getAllPosts } from '@/actions/PostSchema'
+import { getUserPosts } from '@/actions/PostSchema'
 import AddPost from '@/components/posts/AddPost'
 import PostsComponent from '@/components/posts/PostsComponent'
-import { Button } from '@/components/ui/button'
 import { UserDetails } from '@/global/GlobalUser'
 import React, { useEffect, useState } from 'react'
 
@@ -15,19 +14,16 @@ type TPost = {
   createdAt: Date
   updatedAt: Date
 }
-const PostsPage = (props: Props) => {
+const MyPosts = (props: Props) => {
   const [posts, setPosts] = useState<TPost[]>([])
-  const userid = UserDetails()?.id as string
-  const AllPosts = getAllPosts(userid)
-  console.log(AllPosts)
+  const userid: string = UserDetails()?.id as string
   useEffect(() => {
-    async function getPosts() {
-      let AllPosts = await getAllPosts(userid)
-      setPosts(AllPosts as TPost[])
+    async function getUserposts(userid: string) {
+      let res = await getUserPosts(userid)
+      setPosts(res as TPost[])
     }
-    getPosts()
+    getUserposts(userid)
   }, [])
-
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen ">
       <AddPost />
@@ -38,4 +34,4 @@ const PostsPage = (props: Props) => {
   )
 }
 
-export default PostsPage
+export default MyPosts

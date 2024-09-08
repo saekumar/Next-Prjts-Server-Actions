@@ -23,12 +23,18 @@ export async function createPost(postData: FormData) {
   }
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(userid: string) {
   try {
-    let res = await prisma.post.findMany()
+    let res = await prisma.post.findMany({
+      where: {
+        userid: {
+          not: userid,
+        },
+      },
+    })
 
     if (res && res.length > 0) {
-      console.log('Posts found:', res)
+      console.log('Posts found:')
     } else {
       console.log('No posts found')
     }
@@ -40,6 +46,22 @@ export async function getAllPosts() {
   }
 }
 
+export async function getUserPosts(userid: string) {
+  try {
+    let res = await prisma.post.findMany({
+      where: {
+        userid,
+      },
+    })
+    if (res.length > 0) {
+      return res
+    } else {
+      return { message: 'Somethig went wrong' }
+    }
+  } catch (error) {
+    return { message: 'Something went wrong' }
+  }
+}
 export async function getSinglePost(postid: string) {
   try {
     let res = await prisma.post.findFirst({

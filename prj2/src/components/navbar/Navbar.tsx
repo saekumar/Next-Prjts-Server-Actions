@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { ModeToggle } from '../themes/ThemeToggle'
 import { Button } from '../ui/button'
-import { ProfileCard } from '../profile/ProfileCard'
+import { ProfileCard } from '../profile/ProfileButton'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { UserDetails } from '@/global/GlobalUser'

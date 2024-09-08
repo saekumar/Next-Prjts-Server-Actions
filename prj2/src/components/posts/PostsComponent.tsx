@@ -4,9 +4,8 @@ import PostCard from './PostCard'
 
 import { getAllPosts } from '@/actions/PostSchema'
 import { PaginationDemo } from './PaginationDemo'
-import { string } from 'zod'
+import { UserDetails } from '@/global/GlobalUser'
 
-type Props = {}
 type TPost = {
   id: string
   title: string
@@ -15,21 +14,14 @@ type TPost = {
   createdAt: Date
   updatedAt: Date
 }
+type Props = {
+  posts: TPost[]
+}
 
-const PostsComponent = (props: Props) => {
-  const [posts, setPosts] = useState<TPost[]>([])
+const PostsComponent = ({ posts }: Props) => {
   const [currentPage, setCurrentPage] = useState(1)
   const postsPerPage = 3
 
-  useEffect(() => {
-    async function getPosts() {
-      let AllPosts = await getAllPosts()
-      setPosts(AllPosts as TPost[])
-    }
-    getPosts()
-  }, [])
-
-  // Get current posts based on pagination
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
@@ -48,7 +40,7 @@ const PostsComponent = (props: Props) => {
             </div>
           ))}
       </div>
-      {/* Pagination Component */}
+
       <PaginationDemo
         totalPosts={posts.length}
         postsPerPage={postsPerPage}
