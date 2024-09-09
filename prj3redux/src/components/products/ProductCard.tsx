@@ -13,7 +13,6 @@ const ProductCard = ({ prod }: { prod: Product }) => {
   const prods = useAppSelector((state) => state.cart.products)
 
   const isInCart = prods.findIndex((item) => item.id === prod.id)
-  console.log('isIncart', isInCart)
 
   const handleAddToCart = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>

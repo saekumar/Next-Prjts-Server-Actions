@@ -16,7 +16,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerFormSchema } from '@/schemas/PostSchema'
-import { User } from '@/types/UserTypes'
+
 import { createUser } from '@/actions/UserActions'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -25,14 +25,22 @@ type Props = {}
 const RegisterPage = (props: Props) => {
   const router = useRouter()
   const [viewPass, setViewPass] = useState(false)
+  type RegisterUser = {
+    id: string
+    fullname: string
+    username: string
+    email: string
+    password: string
+    confirmpassword: string
+  }
   const {
     register,
     reset,
     formState: { errors, isSubmitting },
     handleSubmit,
-  } = useForm<User>({ resolver: zodResolver(registerFormSchema) })
+  } = useForm<RegisterUser>({ resolver: zodResolver(registerFormSchema) })
 
-  const handleClick = async (userData: User) => {
+  const handleClick = async (userData: RegisterUser) => {
     console.log(userData)
 
     let res = await createUser(userData)

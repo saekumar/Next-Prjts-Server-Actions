@@ -11,11 +11,13 @@ import {
 import { Button } from '../ui/button'
 import { CheckIcon } from '@radix-ui/react-icons'
 import { User } from '@/types/UserTypes'
-import { UserDetails } from '@/global/GlobalUser'
+import { useAppSelector } from '@/store/hooks'
+
 type Props = {}
 
 const ProfilePageComponent = (props: Props) => {
-  const user: User | null = UserDetails()
+  const { user } = useAppSelector((state) => state.authSlice)
+  console.log(user)
 
   return (
     <div className="min-h-screen flex items-center justify-center">

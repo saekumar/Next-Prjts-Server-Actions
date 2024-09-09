@@ -1,13 +1,18 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { ModeToggle } from '../themes/ThemeToggle'
+
 import { Button } from '../ui/button'
 import { ProfileCard } from '../profile/ProfileButton'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { UserDetails } from '@/global/GlobalUser'
+
 import { User } from '@/types/UserTypes'
+import { useAppSelector } from '@/store/hooks'
+import { FavButton } from '../fav/FavButton'
+import { useFavItems } from '@/hooks/getfavItems'
+import { TPost } from '@/types/PostType'
+
 type Props = {}
 const navItems = [
   {
@@ -36,14 +41,11 @@ const Navbar = (props: Props) => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
+  const { user } = useAppSelector((state) => state.authSlice)
   useEffect(() => {
-    const getUserDetails = async () => {
-      const user = UserDetails()
-      setUserD(user)
-    }
-    getUserDetails()
-  }, [])
-
+    setUserD(user)
+  }, [user])
+  console.log(userD)
   return (
     <div className="relative">
       <div className="mt-2 h-14 p-4 flex items-center justify-between w-full bg-gray-800 shadow-lg md:h-16">
@@ -82,12 +84,15 @@ const Navbar = (props: Props) => {
           </Button>
         </div>
 
-        {/* Desktop Profile & Mode Toggle */}
         <div className="hidden md:flex items-center gap-3 p-5">
           <div className="text-white">
-            <Button onClick={() => (!userD ? router.push('/login') : '/')}>
+            {/* <Button onClick={() => (!userD ? router.push('/login') : '')}>
               {!userD ? 'Login' : 'Fav'}
-            </Button>
+            </Button> */}
+            {!userD && (
+              <Button onClick={() => router.push('/login')}>Login</Button>
+            )}
+            {userD && <FavButton />}
           </div>
           {userD && <ProfileCard user={userD} />}
         </div>

@@ -3,7 +3,8 @@ import { getAllPosts } from '@/actions/PostSchema'
 import AddPost from '@/components/posts/AddPost'
 import PostsComponent from '@/components/posts/PostsComponent'
 import { Button } from '@/components/ui/button'
-import { UserDetails } from '@/global/GlobalUser'
+
+import { useAppSelector } from '@/store/hooks'
 import React, { useEffect, useState } from 'react'
 
 type Props = {}
@@ -17,7 +18,9 @@ type TPost = {
 }
 const PostsPage = (props: Props) => {
   const [posts, setPosts] = useState<TPost[]>([])
-  const userid = UserDetails()?.id as string
+  const userid: string = useAppSelector(
+    (state) => state.authSlice.user?.id
+  ) as string
   const AllPosts = getAllPosts(userid)
   console.log(AllPosts)
   useEffect(() => {

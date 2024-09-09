@@ -12,28 +12,26 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { User } from '@/types/UserTypes'
 import Link from 'next/link'
 import { checkUser } from '@/actions/UserActions'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { useAppDispatch } from '@/store/hooks'
+import { login } from '@/store/slices/authSlice'
 export function LoginPage() {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const [userDetails, setUserDetails] = useState({ email: '', password: '' })
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     let res = await checkUser(userDetails.email, userDetails.password)
     if (res.message === 'Logged in successfully') {
+      console.log(res.user)
+      dispatch(login(res?.user as User))
       toast.success(res.message)
       router.push('/')
-      localStorage.setItem('user', JSON.stringify(res.user))
     } else {
       toast.error(res.message)
     }

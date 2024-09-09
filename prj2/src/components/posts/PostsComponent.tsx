@@ -1,19 +1,11 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PostCard from './PostCard'
 
-import { getAllPosts } from '@/actions/PostSchema'
 import { PaginationDemo } from './PaginationDemo'
-import { UserDetails } from '@/global/GlobalUser'
 
-type TPost = {
-  id: string
-  title: string
-  userid: string
-  content: string
-  createdAt: Date
-  updatedAt: Date
-}
+import { TPost } from '@/types/PostType'
+
 type Props = {
   posts: TPost[]
 }

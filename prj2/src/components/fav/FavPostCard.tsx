@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -15,30 +15,23 @@ import { addfav } from '@/store/slices/postSlice'
 import Link from 'next/link'
 import { TPost } from '@/types/PostType'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { removeFromFav } from '@/store/slices/postSlice'
 import { useRouter } from 'next/navigation'
-import { useFavItems } from '@/hooks/getfavItems'
 type Props = {
   post: TPost
 }
 
-const PostCard = ({ post }: Props) => {
-  const [isInFav, setIsInfav] = useState(false)
+const FavPostCard = ({ post }: Props) => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const favItems = useFavItems()
-
-  useEffect(() => {
-    let res = favItems.includes(post)
-    setIsInfav(res)
-  }, [favItems, post])
-  console.log(isInFav)
+  const favItems = useAppSelector((state) => state.favItemSlice.post)
   console.log(favItems)
-  const handleAddToFav = (
+  const handleremoveFromFav = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault()
     try {
-      dispatch(addfav(post))
+      dispatch(removeFromFav(post))
       console.log(favItems)
     } catch (error) {
       console.log(error)
@@ -73,13 +66,11 @@ const PostCard = ({ post }: Props) => {
           >
             View Full
           </Button>
-          <Button onClick={handleAddToFav} disabled={isInFav}>
-            {isInFav ? 'Already added' : 'Add to Fav'}
-          </Button>
+          <Button onClick={handleremoveFromFav}>Remove from Fav</Button>
         </CardFooter>
       </Card>
     </>
   )
 }
 
-export default PostCard
+export default FavPostCard

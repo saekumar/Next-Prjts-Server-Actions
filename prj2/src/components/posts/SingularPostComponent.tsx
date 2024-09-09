@@ -1,7 +1,6 @@
 'use client'
 import { getSinglePost } from '@/actions/PostSchema'
-import prisma from '@/lib/prisma'
-import { Post } from '@prisma/client'
+
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,30 +12,23 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Label } from '@radix-ui/react-dropdown-menu'
+import { TPost } from '@/types/PostType'
 type Props = {
   postid: string
 }
-type TPostData = {
-  id: string
-  title: string
-  content: string
-  createdAt: Date
-  updatedAt: Date
-}
 
 const SingularPostComponent = ({ postid }: Props) => {
-  const [post, setPost] = useState<TPostData | null>(null)
+  const [post, setPost] = useState<TPost | null>(null)
   useEffect(() => {
     async function getPostData() {
       let postData = await getSinglePost(postid)
 
-      setPost(postData as TPostData)
+      setPost(postData as TPost)
     }
 
     getPostData()
   }, [postid])
 
-  console.log(post, typeof post)
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-[350px]">

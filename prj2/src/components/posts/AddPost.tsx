@@ -21,7 +21,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { PostSchema } from '@/schemas/PostSchema'
 import { createPost } from '@/actions/PostSchema'
 import { toast } from 'sonner'
-import { UserDetails } from '@/global/GlobalUser'
+import { useAppSelector } from '@/store/hooks'
+
 type Props = {}
 type TPost = {
   title: string
@@ -35,7 +36,7 @@ const AddPost = () => {
     reset,
   } = useForm<TPost>({ resolver: zodResolver(PostSchema) })
   const [isOpen, setIsOpen] = useState(false)
-  const userid = UserDetails()?.id as string
+  const userid = useAppSelector((state) => state?.authSlice?.user?.id) as string
 
   const handleClick = async (postData: TPost) => {
     let formData = new FormData()

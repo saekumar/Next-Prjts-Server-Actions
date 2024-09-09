@@ -1,18 +1,5 @@
 import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
   LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  UserPlus,
-  Users,
-  SunMoonIcon,
   FileImage,
   SunMoon,
   Sun,
@@ -40,13 +27,18 @@ import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { User } from '@/types/UserTypes'
 
+import { useAppDispatch } from '@/store/hooks'
+import { logout } from '@/store/slices/authSlice'
+
 export function ProfileCard({ user }: { user: User }) {
+  const dispatch = useAppDispatch()
+  const router = useRouter()
   const { setTheme } = useTheme()
   const handleLogout = () => {
-    localStorage.clear()
-    window.location.href = '/login'
+    dispatch(logout())
+    router.push('/login')
   }
-  const router = useRouter()
+
   return (
     user && (
       <DropdownMenu>

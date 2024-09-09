@@ -8,7 +8,6 @@ type Props = {
 }
 
 const SinglePostPage = ({ params }: Props) => {
-  console.log(params.postid)
   return (
     <div>
       <SingularPostComponent postid={params.postid} />
