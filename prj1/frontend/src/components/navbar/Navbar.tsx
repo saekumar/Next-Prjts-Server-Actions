@@ -13,8 +13,8 @@ const Navbar = (props: Props) => {
   const router = useRouter()
   const [user, setUser] = useState({})
   let userDetails = localStorage.getItem('user')
-  userDetails = userDetails ? JSON.parse(userDetails) : userDetails
-  let username = userDetails?.user?.username
+  const parsedUserDetails = userDetails ? JSON.parse(userDetails) : null
+  let username = parsedUserDetails?.user?.username
   console.log(userDetails)
   return (
     <div className="mx-auto p-3 h-14 shadow-lg flex items-center justify-between bg-gray-800 rounded-md">

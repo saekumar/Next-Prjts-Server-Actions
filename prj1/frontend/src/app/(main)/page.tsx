@@ -6,7 +6,8 @@ import Blogs from '@/components/blogs/Blogs'
 export default function Home() {
   return (
     <div className="">
-      <Blogs />
+      {/* <Blogs /> */}
+      <div className="">okay</div>
     </div>
   )
 }
