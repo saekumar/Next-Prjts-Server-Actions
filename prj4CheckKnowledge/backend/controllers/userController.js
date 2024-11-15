@@ -55,7 +55,7 @@ export const createUser = async (req, res, next) => {
     if (!token) {
       return next(new ErrorResponse('Error generating token', 500))
     }
-    const activationUrl = `http://localhost:3000/activation/${token}`
+    const activationUrl = `https://saeblog.vercel.app/activation/${token}`
     console.log(activationUrl)
     try {
       await sendMail({
