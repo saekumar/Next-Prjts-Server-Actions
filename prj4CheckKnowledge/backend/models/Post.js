@@ -11,8 +11,13 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please enter a description'],
     },
-    imgUrl: {
+    image: {
       type: String,
+      required: true,
+    },
+    imageId: {
+      type: String,
+      required: true,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

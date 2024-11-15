@@ -7,6 +7,7 @@ import { Button } from '../ui/button'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FloatingNav } from './FloatingNavbar'
+import Profile from './Profile'
 
 // import { User } from '@/types/UserTypes'
 // import { useAppSelector } from '@/store/hooks'
@@ -24,14 +25,12 @@ export const navItems = [
 
 const Navbar = (props: Props) => {
   const router = useRouter()
-  //   const [userD, setUserD] = useState<User | null>()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  let userData = localStorage.getItem('user')
+  console.log(userData)
+  const parsedUserData = userData ? JSON.parse(userData) : null
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+  console.log(parsedUserData)
 
-  const userD = false
   return (
     <div className="relative bg-black/[0.96]  ">
       <div className="  p-4 flex items-center justify-between w-full shadow-lg md:h-16">
@@ -43,7 +42,8 @@ const Navbar = (props: Props) => {
 
         <div className="hidden md:flex items-center gap-3 p-5">
           <div className="text-white">
-            {!userD && (
+            {userData && <Profile user={parsedUserData} />}
+            {!userData && (
               <Button onClick={() => router.push('/login')}>Login</Button>
             )}
           </div>

@@ -44,8 +44,8 @@ export default function SignupFormDemo() {
       })
       console.log(res)
       if (res.status === 201) {
-        toast.success('User Registered Successfully')
-        router.push('/')
+        toast.success(`${res.data.message}`)
+        // router.push('/')
       } else {
         toast.error(`${res.data.data.mesaage}`)
       }

@@ -1,13 +1,20 @@
 import { Post } from '../models/Post.js'
 import { Tag } from '../models/tags.js'
 import { User } from '../models/user.js'
-
+import {
+  deleteImageFromCloudinary,
+  uploadImage,
+} from '../utils/cloudinaryconfig.js'
+import fs from 'fs'
 import ErrorResponse from '../utils/error.js'
 
 export const createPost = async (req, res) => {
   try {
     const { title, description, tags } = req.body
+    const image = req.file ? req.file : null
 
+    console.log('image name', image)
+    console.log(typeof image.path, image.path)
     if (!title) {
       return res.status(400).json({
         success: false,
@@ -29,11 +36,19 @@ export const createPost = async (req, res) => {
       })
     }
     const authorId = req.user.userId
+    // Cloudinary
+
+    const { public_id, secure_url } = await uploadImage(image.path) // Pass the image path to Cloudinary
+
+    console.log('public id', public_id, 'secure url', secure_url)
+    fs.unlinkSync(image.path)
 
     const newPost = await Post.create({
       title,
       description,
       author: authorId,
+      image: secure_url,
+      imageId: public_id,
       tags: [],
     })
     await User.findByIdAndUpdate(authorId, { $push: { posts: newPost._id } })
@@ -185,6 +200,7 @@ export const deletePost = async (req, res, next) => {
       )
     }
 
+    await deleteImageFromCloudinary(post.imageId)
     await Post.findByIdAndDelete(postId)
 
     await User.findByIdAndUpdate(user.userId, { $pull: { posts: id } })

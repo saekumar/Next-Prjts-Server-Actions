@@ -6,6 +6,7 @@ const nextConfig = {
       'images.unsplash.com',
       'drive.google.com',
       'encrypted-tbn3.gstatic.com',
+      'res.cloudinary.com',
     ], // Add the external domain here
   },
 }

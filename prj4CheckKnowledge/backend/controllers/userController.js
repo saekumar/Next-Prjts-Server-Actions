@@ -5,7 +5,7 @@ import ErrorResponse from '../utils/error.js'
 import jwt from 'jsonwebtoken'
 import { generateJWT } from '../utils/generateJwt.js'
 import { Tag } from '../models/tags.js'
-
+import sendMail from '../utils/sendMail.js'
 export const createUser = async (req, res, next) => {
   try {
     const { name, email, username, password } = req.body
@@ -51,19 +51,36 @@ export const createUser = async (req, res, next) => {
       username,
       userId: newUser._id,
     })
-
+    console.log(token)
     if (!token) {
       return next(new ErrorResponse('Error generating token', 500))
     }
+    const activationUrl = `http://localhost:3000/activation/${token}`
+    console.log(activationUrl)
+    try {
+      await sendMail({
+        email: userWithoutPass.email,
+        subject: 'Activate your Account',
+        message: `Hello ${userWithoutPass.name}, please click on the below link to activate your account: ${activationUrl}`,
+      })
+      res.status(201).json({
+        message: 'Please check your email for activation instructions.',
+        success: true,
+      })
+    } catch (error) {
+      return next(
+        new ErrorResponse('An error occurred. Please try again later.', 500)
+      )
+    }
 
-    return res.status(201).json({
-      success: true,
-      message: 'User created successfully!',
-      data: {
-        user: userWithoutPass,
-        token: `Bearer ${token}`,
-      },
-    })
+    // return res.status(201).json({
+    //   success: true,
+    //   message: 'User created successfully!',
+    //   data: {
+    //     user: userWithoutPass,
+    //     token: `Bearer ${token}`,
+    //   },
+    // })
   } catch (error) {
     console.error(error)
     return res.status(500).json({
@@ -74,6 +91,37 @@ export const createUser = async (req, res, next) => {
   }
 }
 
+export const activateUser = async (req, res, next) => {
+  try {
+    const { token } = req.body
+    const decoded = jwt.verify(token, 'asdfASD#$%@#234DFGVBas$%')
+    console.log(decoded)
+    if (!decoded) {
+      return next(new ErrorHandler('Invalid Token', 400))
+    }
+
+    const user = await User.findById(decoded.userId)
+    if (!user) {
+      return next(new ErrorHandler('User not found', 404))
+    }
+
+    if (user.isActivated) {
+      return res.status(200).json({
+        success: true,
+        message: 'User is already activated',
+      })
+    }
+
+    user.isActivated = true
+    await user.save()
+
+    // sendToken(user, 201, res)
+  } catch (error) {
+    return next(
+      new ErrorResponse('An error occurred. Please try again later.', 500)
+    )
+  }
+}
 export const loginUser = async (req, res, next) => {
   try {
     const { email, username, password } = req.body

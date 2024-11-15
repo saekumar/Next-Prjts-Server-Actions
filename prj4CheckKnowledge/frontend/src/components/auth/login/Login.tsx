@@ -32,6 +32,8 @@ const LoginSchemaWithUsername = z.object({
 
 const Login = () => {
   const [loginOption, setLoginOption] = useState<'username' | 'email'>('email')
+  const [user, setUser] = useState()
+  const [token, setToken] = useState()
   const router = useRouter()
 
   const {
@@ -55,9 +57,22 @@ const Login = () => {
         password: data.password,
       })
       console.log(res)
+
       if (res.status === 200) {
+        // Get user and token from response
+        const { user, token } = res.data.data
+
+        // Store user and token in useState
+        setUser(user)
+        setToken(token)
+
+        // Store user and token in localStorage
+        localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('token', token)
+
         toast.success('User logged in successfully')
         router.push('/')
+        console.log(user)
       }
     } catch (error) {
       console.log('error', error)
@@ -71,15 +86,30 @@ const Login = () => {
   }) => {
     console.log('Username Login Data:', data)
     try {
-      // handle username login logic here
       let res = await axios.post('http://localhost:8000/api/v1/login', {
         username: data.username,
         password: data.password,
       })
       console.log(res)
+
+      if (res.status === 200) {
+        // Get user and token from response
+        const { user, token } = res.data.data
+
+        // Store user and token in useState
+        setUser(user)
+        setToken(token)
+
+        // Store user and token in localStorage
+        localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('token', token)
+
+        toast.success('User logged in successfully')
+        router.push('/')
+        console.log(res.data.data)
+      }
     } catch (error) {
       console.log(error)
-      // console.error(`${(error as any)?.response?.data?.mesaage}`)
       toast.error(`${(error as any)?.response?.data?.message}`)
     }
   }
@@ -88,11 +118,15 @@ const Login = () => {
     <Tabs
       defaultValue="email"
       onValueChange={(value) => setLoginOption(value as 'username' | 'email')}
-      className="w-[400px]"
+      className="w-[450px] h-[450px]"
     >
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="email">Email</TabsTrigger>
-        <TabsTrigger value="username">Username</TabsTrigger>
+        <TabsTrigger value="email" className="font-semibold ">
+          Email
+        </TabsTrigger>
+        <TabsTrigger value="username" className="font-semibold ">
+          Username
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="email">
         <Card>

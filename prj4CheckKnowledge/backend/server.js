@@ -5,6 +5,7 @@ import UserRoutes from '../backend/routes/UserRoutes.js'
 import PostRoutes from '../backend/routes/PostRoutes.js'
 import ErrorHandler from '../backend/middlewares/errorHandler.js'
 import cors from 'cors'
+import { cloudinaryConfig } from './utils/cloudinaryconfig.js'
 
 const app = express()
 

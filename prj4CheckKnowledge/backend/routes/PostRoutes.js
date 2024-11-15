@@ -15,12 +15,13 @@ import {
   editComment,
   likeUnlikeComment,
 } from '../controllers/commentController.js'
+import { upload } from '../utils/multer.js'
 
 const router = express.Router()
 
 // router.get('/getitems', getItems)
 // Post Routes
-router.post('/post', Protect, createPost)
+router.post('/post', Protect, upload.single('image'), createPost)
 router.get('/post/:id', Protect, getPostById)
 router.get('/post', Protect, getAllPosts)
 router.post('/post/:id', Protect, updatePost)
