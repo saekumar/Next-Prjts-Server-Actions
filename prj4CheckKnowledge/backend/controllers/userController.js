@@ -1,6 +1,6 @@
 import { User } from '../models/user.js'
 import { Post } from '../models/Post.js'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import ErrorResponse from '../utils/error.js'
 import jwt from 'jsonwebtoken'
 import { generateJWT } from '../utils/generateJwt.js'
