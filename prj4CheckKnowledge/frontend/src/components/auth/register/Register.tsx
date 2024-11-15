@@ -36,12 +36,15 @@ export default function SignupFormDemo() {
 
   const handleClick = async (userData: RegisterUser) => {
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/user', {
-        name: userData.fullname,
-        email: userData.email,
-        username: userData.username,
-        password: userData.password,
-      })
+      const res = await axios.post(
+        'https://next-prjts-server-actions.onrender.com/api/v1/user',
+        {
+          name: userData.fullname,
+          email: userData.email,
+          username: userData.username,
+          password: userData.password,
+        }
+      )
       console.log(res)
       if (res.status === 201) {
         toast.success(`${res.data.message}`)

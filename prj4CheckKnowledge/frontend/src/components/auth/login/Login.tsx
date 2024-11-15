@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-
+import Cookies from 'js-cookie'
 const LoginSchemaWithMail = z.object({
   email: z.string().nonempty('Email is required').email('Not a valid email'),
   password: z.string().nonempty('Password is required'),
@@ -52,10 +52,13 @@ const Login = () => {
   const handleEmail = async (data: { email?: string; password: string }) => {
     console.log('Email Login Data:', data)
     try {
-      let res = await axios.post('http://localhost:8000/api/v1/login', {
-        email: data.email,
-        password: data.password,
-      })
+      let res = await axios.post(
+        'https://next-prjts-server-actions.onrender.com/api/v1/login',
+        {
+          email: data.email,
+          password: data.password,
+        }
+      )
       console.log(res)
 
       if (res.status === 200) {
@@ -66,9 +69,9 @@ const Login = () => {
         setUser(user)
         setToken(token)
 
-        // Store user and token in localStorage
-        localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', token)
+        // Store user and token in cookies instead of localStorage
+        Cookies.set('user', JSON.stringify(user), { expires: 7 }) // Expires in 7 days
+        Cookies.set('token', token, { expires: 7 })
 
         toast.success('User logged in successfully')
         router.push('/')
@@ -86,10 +89,13 @@ const Login = () => {
   }) => {
     console.log('Username Login Data:', data)
     try {
-      let res = await axios.post('http://localhost:8000/api/v1/login', {
-        username: data.username,
-        password: data.password,
-      })
+      let res = await axios.post(
+        'https://next-prjts-server-actions.onrender.com/api/v1/login',
+        {
+          username: data.username,
+          password: data.password,
+        }
+      )
       console.log(res)
 
       if (res.status === 200) {
@@ -100,9 +106,9 @@ const Login = () => {
         setUser(user)
         setToken(token)
 
-        // Store user and token in localStorage
-        localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', token)
+        // Store user and token in cookies instead of localStorage
+        Cookies.set('user', JSON.stringify(user), { expires: 7 }) // Expires in 7 days
+        Cookies.set('token', token, { expires: 7 })
 
         toast.success('User logged in successfully')
         router.push('/')

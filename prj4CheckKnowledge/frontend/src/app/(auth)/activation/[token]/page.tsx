@@ -26,9 +26,12 @@ const ActivationPage = (props: Props) => {
 
   const activateAccount = async () => {
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/activation', {
-        token,
-      })
+      const res = await axios.post(
+        'https://next-prjts-server-actions.onrender.com/api/v1/activation',
+        {
+          token,
+        }
+      )
       console.log(res)
     } catch (error: any) {
       setError(error.message)

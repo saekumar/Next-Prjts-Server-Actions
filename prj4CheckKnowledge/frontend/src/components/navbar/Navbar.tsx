@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FloatingNav } from './FloatingNavbar'
 import Profile from './Profile'
-
+import Cookies from 'js-cookie'
 // import { User } from '@/types/UserTypes'
 // import { useAppSelector } from '@/store/hooks'
 // import { FavButton } from '../fav/FavButton'
@@ -25,7 +25,7 @@ export const navItems = [
 
 const Navbar = (props: Props) => {
   const router = useRouter()
-  let userData = localStorage.getItem('user')
+  let userData = Cookies.get('user')
   console.log(userData)
   const parsedUserData = userData ? JSON.parse(userData) : null
 
