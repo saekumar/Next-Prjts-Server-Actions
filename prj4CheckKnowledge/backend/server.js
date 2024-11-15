@@ -20,7 +20,7 @@ app.use(express.json())
 // Set up CORS with multiple origins (local and production)
 const allowedOrigins = [
   'http://localhost:3000', // Local development frontend
-  // 'https://your-production-frontend-url.com', // Replace with actual production URL
+  'https://saeblog.vercel.app', // Replace with actual production URL
 ]
 
 app.use(
